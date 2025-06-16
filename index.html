@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Гра "Розпізнай емоцію"</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -19,24 +23,30 @@
         .game-container {
             background: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 600px;
             width: 100%;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         h1 {
             color: #4a5568;
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            font-size: clamp(1.5em, 4vw, 2.5em);
+            margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.2;
         }
         
         .emotion-display {
-            font-size: 8em;
-            margin: 30px 0;
+            font-size: clamp(4em, 15vw, 8em);
+            margin: 20px 0;
             animation: bounce 2s infinite;
+            line-height: 1;
         }
         
         @keyframes bounce {
@@ -46,36 +56,47 @@
         }
         
         .question {
-            font-size: 1.5em;
+            font-size: clamp(1.1em, 3vw, 1.5em);
             color: #2d3748;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: bold;
+            line-height: 1.3;
         }
         
         .options {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .option-btn {
             background: linear-gradient(145deg, #f7fafc, #edf2f7);
             border: 3px solid #e2e8f0;
             border-radius: 15px;
-            padding: 20px;
-            font-size: 1.2em;
+            padding: 15px 10px;
+            font-size: clamp(1em, 2.5vw, 1.2em);
             font-weight: bold;
             color: #4a5568;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            word-wrap: break-word;
         }
         
         .option-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
             background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+        }
+        
+        .option-btn:active {
+            transform: translateY(-1px);
         }
         
         .option-btn.correct {
@@ -91,36 +112,43 @@
         }
         
         .score {
-            font-size: 1.3em;
+            font-size: clamp(1.1em, 3vw, 1.3em);
             color: #4a5568;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: bold;
         }
         
-        .next-btn {
+        .next-btn, .restart-btn {
             background: linear-gradient(145deg, #4299e1, #3182ce);
             color: white;
             border: none;
             border-radius: 15px;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 12px 24px;
+            font-size: clamp(1em, 2.5vw, 1.2em);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
+            min-height: 50px;
+            touch-action: manipulation;
         }
         
-        .next-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        .next-btn:hover, .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .next-btn:active, .restart-btn:active {
+            transform: translateY(0);
         }
         
         .feedback {
-            font-size: 1.4em;
+            font-size: clamp(1.1em, 3vw, 1.4em);
             font-weight: bold;
-            margin: 20px 0;
-            padding: 15px;
+            margin: 15px 0;
+            padding: 12px;
             border-radius: 10px;
+            line-height: 1.3;
         }
         
         .feedback.correct {
@@ -136,28 +164,132 @@
         .final-score {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
+        }
+        
+        .final-score h2 {
+            font-size: clamp(1.3em, 4vw, 2em);
+            margin-bottom: 10px;
+        }
+        
+        .final-score p {
+            font-size: clamp(1em, 2.5vw, 1.2em);
+            margin: 8px 0;
+            line-height: 1.4;
         }
         
         .restart-btn {
             background: linear-gradient(145deg, #38a169, #2f855a);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
-        .restart-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        /* Мобільні стилі */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .game-container {
+                padding: 15px;
+                border-radius: 15px;
+                min-height: 90vh;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .option-btn {
+                padding: 12px 8px;
+                min-height: 55px;
+            }
+            
+            .emotion-display {
+                margin: 15px 0;
+            }
+            
+            .question {
+                margin-bottom: 15px;
+            }
+            
+            .feedback {
+                margin: 12px 0;
+                padding: 10px;
+            }
+        }
+        
+        /* Планшети */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+        
+        /* Великі екрани */
+        @media (min-width: 769px) {
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .game-container {
+                padding: 30px;
+            }
+        }
+        
+        /* Ландшафтна орієнтація на мобільних */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container {
+                min-height: 95vh;
+                padding: 10px;
+            }
+            
+            .emotion-display {
+                font-size: clamp(3em, 12vw, 6em);
+                margin: 10px 0;
+            }
+            
+            h1 {
+                margin-bottom: 10px;
+            }
+            
+            .question {
+                margin-bottom: 12px;
+            }
+            
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .option-btn {
+                padding: 8px 6px;
+                min-height: 45px;
+            }
+        }
+        
+        /* Високі екрани */
+        @media (min-height: 800px) {
+            .game-container {
+                max-height: 90vh;
+            }
+        }
+        
+        /* Темна тема для пристроїв з підтримкою */
+        @media (prefers-color-scheme: dark) {
+            .option-btn {
+                background: linear-gradient(145deg, #2d3748, #4a5568);
+                color: #f7fafc;
+                border-color: #4a5568;
+            }
+            
+            .option-btn:hover {
+                background: linear-gradient(145deg, #4a5568, #718096);
+            }
         }
     </style>
 </head>
