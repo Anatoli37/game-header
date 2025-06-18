@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Гра "Розпізнай емоцію"</title>
+    <title>Освітня гра "Думай на рівних"</title>
     <style>
         * {
             box-sizing: border-box;
@@ -26,27 +26,71 @@
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             min-height: 80vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
         
         h1 {
             color: #4a5568;
-            font-size: clamp(1.5em, 4vw, 2.5em);
+            font-size: clamp(1.3em, 3.5vw, 2.2em);
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             line-height: 1.2;
         }
         
-        .emotion-display {
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .menu-btn {
+            background: linear-gradient(145deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: clamp(1.1em, 3vw, 1.4em);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            touch-action: manipulation;
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .menu-btn.emotions { background: linear-gradient(145deg, #48bb78, #38a169); }
+        .menu-btn.alphabet { background: linear-gradient(145deg, #ed8936, #dd6b20); }
+        .menu-btn.numbers { background: linear-gradient(145deg, #9f7aea, #805ad5); }
+        .menu-btn.drawing { background: linear-gradient(145deg, #f56565, #e53e3e); }
+        .menu-btn.letter-drawing { background: linear-gradient(145deg, #667eea, #764ba2); }
+        .menu-btn.free-drawing { background: linear-gradient(145deg, #a3a3a3, #7a7a7a); } 
+        
+        .game-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .display-area {
             font-size: clamp(4em, 15vw, 8em);
             margin: 20px 0;
             animation: bounce 2s infinite;
             line-height: 1;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer; /* Add cursor pointer for clickable elements */
         }
         
         @keyframes bounce {
@@ -65,7 +109,7 @@
         
         .options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -95,10 +139,6 @@
             background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
         }
         
-        .option-btn:active {
-            transform: translateY(-1px);
-        }
-        
         .option-btn.correct {
             background: linear-gradient(145deg, #68d391, #48bb78);
             color: white;
@@ -118,7 +158,15 @@
             font-weight: bold;
         }
         
-        .next-btn, .restart-btn {
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .btn {
             background: linear-gradient(145deg, #4299e1, #3182ce);
             color: white;
             border: none;
@@ -133,15 +181,16 @@
             touch-action: manipulation;
         }
         
-        .next-btn:hover, .restart-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
-        .next-btn:active, .restart-btn:active {
-            transform: translateY(0);
-        }
-        
+        .btn.back { background: linear-gradient(145deg, #718096, #4a5568); }
+        .btn.restart { background: linear-gradient(145deg, #38a169, #2f855a); }
+        .btn.undo { background: linear-gradient(145deg, #9f7aea, #805ad5); } 
+        .btn.redo { background: linear-gradient(145deg, #f06292, #ec407a); } 
+
         .feedback {
             font-size: clamp(1.1em, 3vw, 1.4em);
             font-weight: bold;
@@ -180,9 +229,99 @@
             line-height: 1.4;
         }
         
-        .restart-btn {
-            background: linear-gradient(145deg, #38a169, #2f855a);
-            margin-top: 15px;
+        /* Канвас для малювання */
+        .drawing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #drawingCanvas, #letterDrawingCanvas, #freeDrawingCanvas { 
+            border: 3px solid #4299e1;
+            border-radius: 15px;
+            background: white;
+            cursor: crosshair;
+            touch-action: none; 
+        }
+        
+        .drawing-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .color-btn.active {
+            border-color: #4299e1;
+            transform: scale(1.2);
+        }
+
+        .tool-controls { 
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            background: #edf2f7;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px 15px; 
+            font-size: clamp(1em, 2.5vw, 1.4em); 
+            width: 50px; 
+            height: 50px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .tool-btn:hover {
+            background: #cbd5e0;
+            transform: translateY(-1px);
+        }
+
+        .tool-btn.active {
+            background: #4299e1;
+            color: white;
+            border-color: #3182ce;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .number-practice, .letter-practice, .free-drawing-mode { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .number-display, .letter-display-draw {
+            font-size: clamp(6em, 20vw, 12em);
+            color: #4299e1;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .trace-instruction {
+            font-size: clamp(1em, 2.5vw, 1.3em);
+            color: #4a5568;
+            margin-bottom: 10px;
         }
         
         /* Мобільні стилі */
@@ -202,22 +341,33 @@
                 gap: 10px;
             }
             
-            .option-btn {
-                padding: 12px 8px;
-                min-height: 55px;
+            .menu-container {
+                gap: 12px;
             }
             
-            .emotion-display {
-                margin: 15px 0;
+            .menu-btn {
+                padding: 15px;
             }
             
-            .question {
-                margin-bottom: 15px;
+            #drawingCanvas, #letterDrawingCanvas, #freeDrawingCanvas {
+                width: 100%;
+                max-width: 300px;
+                height: 200px;
             }
-            
-            .feedback {
-                margin: 12px 0;
-                padding: 10px;
+
+            .drawing-controls, .tool-controls {
+                gap: 5px;
+            }
+
+            .color-btn {
+                width: 35px;
+                height: 35px;
+            }
+
+            .tool-btn {
+                width: 45px;
+                height: 45px;
+                font-size: clamp(0.9em, 2.2vw, 1.2em);
             }
         }
         
@@ -225,106 +375,245 @@
         @media (min-width: 481px) and (max-width: 768px) {
             .options {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+            }
+            
+            #drawingCanvas, #letterDrawingCanvas, #freeDrawingCanvas {
+                width: 400px;
+                height: 300px;
+            }
+
+            .tool-btn {
+                width: 55px;
+                height: 55px;
             }
         }
         
         /* Великі екрани */
         @media (min-width: 769px) {
             .options {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                grid-template-columns: repeat(3, 1fr);
             }
             
-            .game-container {
-                padding: 30px;
+            #drawingCanvas, #letterDrawingCanvas, #freeDrawingCanvas {
+                width: 500px;
+                height: 400px;
+            }
+
+            .tool-btn {
+                width: 60px;
+                height: 60px;
             }
         }
         
-        /* Ландшафтна орієнтація на мобільних */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .game-container {
-                min-height: 95vh;
-                padding: 10px;
-            }
-            
-            .emotion-display {
-                font-size: clamp(3em, 12vw, 6em);
-                margin: 10px 0;
-            }
-            
-            h1 {
-                margin-bottom: 10px;
-            }
-            
-            .question {
-                margin-bottom: 12px;
-            }
-            
-            .options {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-            
-            .option-btn {
-                padding: 8px 6px;
-                min-height: 45px;
-            }
-        }
-        
-        /* Високі екрани */
-        @media (min-height: 800px) {
-            .game-container {
-                max-height: 90vh;
-            }
-        }
-        
-        /* Темна тема для пристроїв з підтримкою */
-        @media (prefers-color-scheme: dark) {
-            .option-btn {
-                background: linear-gradient(145deg, #2d3748, #4a5568);
-                color: #f7fafc;
-                border-color: #4a5568;
-            }
-            
-            .option-btn:hover {
-                background: linear-gradient(145deg, #4a5568, #718096);
-            }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>🎮 Розпізнай емоцію!</h1>
+        <h1>🎮 Думай на рівних</h1>
         
-        <div class="score">
-            Рахунок: <span id="score">0</span> / <span id="total">0</span>
+        <div id="main-menu" class="menu-container">
+            <button class="menu-btn emotions" onclick="startGame('emotions')">
+                😊 Розпізнавання емоцій
+            </button>
+            <button class="menu-btn alphabet" onclick="startGame('alphabet')">
+                🔤 Вивчення алфавіту
+            </button>
+            <button class="menu-btn numbers" onclick="startGame('numbers')">
+                🔢 Вивчення цифр
+            </button>
+            <button class="menu-btn drawing" onclick="startGame('drawing')">
+                ✏️ Малювання цифр
+            </button>
+            <button class="menu-btn letter-drawing" onclick="startGame('letter-drawing')">
+                ✍️ Малювання літер
+            </button>
+            <button class="menu-btn free-drawing" onclick="startGame('free-drawing')">
+                🎨 Вільне малювання
+            </button>
         </div>
         
-        <div id="game-area">
-            <div class="emotion-display" id="emotion-emoji">😊</div>
-            <div class="question">Яка це емоція?</div>
-            
-            <div class="options" id="options">
-                <!-- Options will be generated here -->
+        <div id="emotions-game" class="game-content hidden">
+            <div class="score">
+                Рахунок: <span id="emotions-score">0</span> / <span id="emotions-total">0</span>
             </div>
             
-            <div id="feedback" class="feedback" style="display: none;"></div>
+            <div class="display-area" id="emotion-emoji">😊</div>
+            <div class="question">Яка це емоція?</div>
             
-            <button id="next-btn" class="next-btn" style="display: none;">Наступне питання</button>
+            <div class="options" id="emotions-options"></div>
+            
+            <div id="emotions-feedback" class="feedback hidden"></div>
+            
+            <div class="controls">
+                <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                <button id="emotions-next" class="btn hidden" onclick="nextQuestion()">Далі</button>
+            </div>
         </div>
         
-        <div id="final-screen" style="display: none;">
+        <div id="alphabet-game" class="game-content hidden">
+            <div class="score">
+                Рахунок: <span id="alphabet-score">0</span> / <span id="alphabet-total">0</span>
+            </div>
+            
+            <div class="display-area" id="letter-display" onclick="speakText(this.textContent)">А</div>
+            <div class="question">Яка це літера?</div>
+            
+            <div class="options" id="alphabet-options"></div>
+            
+            <div id="alphabet-feedback" class="feedback hidden"></div>
+            
+            <div class="controls">
+                <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                <button id="alphabet-next" class="btn hidden" onclick="nextQuestion()">Далі</button>
+            </div>
+        </div>
+        
+        <div id="numbers-game" class="game-content hidden">
+            <div class="score">
+                Рахунок: <span id="numbers-score">0</span> / <span id="numbers-total">0</span>
+            </div>
+            
+            <div class="display-area" id="number-display" onclick="speakText(this.textContent)">1</div>
+            <div class="question">Яка це цифра?</div>
+            
+            <div class="options" id="numbers-options"></div>
+            
+            <div id="numbers-feedback" class="feedback hidden"></div>
+            
+            <div class="controls">
+                <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                <button id="numbers-next" class="btn hidden" onclick="nextQuestion()">Далі</button>
+            </div>
+        </div>
+        
+        <div id="drawing-game" class="game-content hidden">
+            <div class="number-practice">
+                <div class="trace-instruction">Намалюй цифру:</div>
+                <div class="number-display" id="draw-number" onclick="speakText(this.textContent)">1</div>
+                
+                <div class="drawing-container">
+                    <canvas id="drawingCanvas" width="500" height="400"></canvas>
+                    
+                    <div class="drawing-controls">
+                        <div class="color-btn active" style="background: #000" data-color="#000000" data-canvas="drawingCanvas"></div>
+                        <div class="color-btn" style="background: #FF0000" data-color="#FF0000" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #00FF00" data-color="#00FF00" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #0000FF" data-color="#0000FF" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #FFFF00" data-color="#FFFF00" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #FF00FF" data-color="#FF00FF" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #00FFFF" data-color="#00FFFF" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #FFA500" data-color="#FFA500" data-canvas="drawingCanvas"></div> 
+                        <div class="color-btn" style="background: #800080" data-color="#800080" data-canvas="drawingCanvas"></div> 
+                    </div>
+                    <div class="tool-controls">
+                        <button class="tool-btn active" data-tool="pen" data-canvas="drawingCanvas">🖊️</button>
+                        <button class="tool-btn" data-tool="eraser" data-canvas="drawingCanvas">🧽</button>
+                        <button class="tool-btn" data-size="3" data-canvas="drawingCanvas">⚪</button>
+                        <button class="tool-btn active" data-size="5" data-canvas="drawingCanvas">🔵</button>
+                        <button class="tool-btn" data-size="10" data-canvas="drawingCanvas">🔴</button>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                    <button class="btn" onclick="clearCanvas('number')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('number')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('number')">↪️</button>
+                    <button class="btn" onclick="nextDrawingItem('number')">➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="letter-drawing-game" class="game-content hidden">
+            <div class="letter-practice">
+                <div class="trace-instruction">Намалюй літеру:</div>
+                <div class="letter-display-draw" id="draw-letter" onclick="speakText(this.textContent)">А</div>
+                
+                <div class="drawing-container">
+                    <canvas id="letterDrawingCanvas" width="500" height="400"></canvas>
+                    
+                    <div class="drawing-controls">
+                        <div class="color-btn active" style="background: #000" data-color="#000000" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FF0000" data-color="#FF0000" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #00FF00" data-color="#00FF00" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #0000FF" data-color="#0000FF" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FFFF00" data-color="#FFFF00" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FF00FF" data-color="#FF00FF" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #00FFFF" data-color="#00FFFF" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FFA500" data-color="#FFA500" data-canvas="letterDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #800080" data-color="#800080" data-canvas="letterDrawingCanvas"></div>
+                    </div>
+                    <div class="tool-controls">
+                        <button class="tool-btn active" data-tool="pen" data-canvas="letterDrawingCanvas">🖊️</button>
+                        <button class="tool-btn" data-tool="eraser" data-canvas="letterDrawingCanvas">🧽</button>
+                        <button class="tool-btn" data-size="3" data-canvas="letterDrawingCanvas">⚪</button>
+                        <button class="tool-btn active" data-size="5" data-canvas="letterDrawingCanvas">🔵</button>
+                        <button class="tool-btn" data-size="10" data-canvas="letterDrawingCanvas">🔴</button>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                    <button class="btn" onclick="clearCanvas('letter')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('letter')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('letter')">↪️</button>
+                    <button class="btn" onclick="nextDrawingItem('letter')">➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="free-drawing-game" class="game-content hidden">
+            <div class="free-drawing-mode">
+                <div class="drawing-container">
+                    <canvas id="freeDrawingCanvas" width="500" height="400"></canvas>
+                    
+                    <div class="drawing-controls">
+                        <div class="color-btn active" style="background: #000" data-color="#000000" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FF0000" data-color="#FF0000" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #00FF00" data-color="#00FF00" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #0000FF" data-color="#0000FF" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FFFF00" data-color="#FFFF00" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FF00FF" data-color="#FF00FF" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #00FFFF" data-color="#00FFFF" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #FFA500" data-color="#FFA500" data-canvas="freeDrawingCanvas"></div>
+                        <div class="color-btn" style="background: #800080" data-color="#800080" data-canvas="freeDrawingCanvas"></div>
+                    </div>
+                    <div class="tool-controls">
+                        <button class="tool-btn active" data-tool="pen" data-canvas="freeDrawingCanvas">🖊️</button>
+                        <button class="tool-btn" data-tool="eraser" data-canvas="freeDrawingCanvas">🧽</button>
+                        <button class="tool-btn" data-size="3" data-canvas="freeDrawingCanvas">⚪</button>
+                        <button class="tool-btn active" data-size="5" data-canvas="freeDrawingCanvas">🔵</button>
+                        <button class="tool-btn" data-size="10" data-canvas="freeDrawingCanvas">🔴</button>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                    <button class="btn" onclick="clearCanvas('free')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('free')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('free')">↪️</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="final-screen" class="hidden">
             <div class="final-score">
-                <h2>🎉 Гра завершена!</h2>
+                <h2>🎉 Молодець!</h2>
                 <p>Твій результат: <span id="final-score-text"></span></p>
                 <p id="final-message"></p>
             </div>
-            <button id="restart-btn" class="restart-btn">Грати знову</button>
+            <div class="controls">
+                <button class="btn back" onclick="showMenu()">🏠 Меню</button>
+                <button class="btn restart" onclick="restartCurrentGame()">🔄 Ще раз</button>
+            </div>
         </div>
     </div>
 
     <script>
+        // Дані для гри
         const emotions = [
             { emoji: '😊', name: 'Радість', options: ['Радість', 'Сум', 'Злість', 'Страх'] },
             { emoji: '😢', name: 'Сум', options: ['Радість', 'Сум', 'Здивування', 'Злість'] },
@@ -337,11 +626,221 @@
             { emoji: '🤗', name: 'Ніжність', options: ['Ніжність', 'Злість', 'Страх', 'Сум'] },
             { emoji: '😤', name: 'Обурення', options: ['Радість', 'Сум', 'Обурення', 'Страх'] }
         ];
-
+        
+        const alphabet = [
+            { letter: 'А', name: 'А', options: ['А', 'О', 'У', 'І'] },
+            { letter: 'Б', name: 'Б', options: ['Б', 'В', 'Г', 'Д'] },
+            { letter: 'В', name: 'В', options: ['В', 'Б', 'Г', 'Ж'] },
+            { letter: 'Г', name: 'Г', options: ['Г', 'Ґ', 'Д', 'Е'] },
+            { letter: 'Д', name: 'Д', options: ['Д', 'Б', 'З', 'К'] },
+            { letter: 'Е', name: 'Е', options: ['Е', 'Є', 'І', 'А'] },
+            { letter: 'Ж', name: 'Ж', options: ['Ж', 'З', 'Х', 'Ш'] },
+            { letter: 'З', name: 'З', options: ['З', 'С', 'Ж', 'Ч'] },
+            { letter: 'І', name: 'І', options: ['І', 'Ї', 'Й', 'У'] },
+            { letter: 'К', name: 'К', options: ['К', 'Х', 'Р', 'П'] },
+            { letter: 'Л', name: 'Л', options: ['Л', 'М', 'Н', 'К'] },
+            { letter: 'М', name: 'М', options: ['М', 'Н', 'Л', 'П'] },
+            { letter: 'Н', name: 'Н', options: ['Н', 'М', 'Р', 'О'] },
+            { letter: 'О', name: 'О', options: ['О', 'А', 'У', 'И'] },
+            { letter: 'П', name: 'П', options: ['П', 'Р', 'С', 'Т'] },
+            { letter: 'Р', name: 'Р', options: ['Р', 'П', 'С', 'Ф'] },
+            { letter: 'С', name: 'С', options: ['С', 'Т', 'Р', 'Н'] },
+            { letter: 'Т', name: 'Т', options: ['Т', 'У', 'Ф', 'Х'] },
+            { letter: 'У', name: 'У', options: ['У', 'Ю', 'Я', 'И'] },
+            { letter: 'Ф', name: 'Ф', options: ['Ф', 'Х', 'Ц', 'Ч'] },
+            { letter: 'Х', name: 'Х', options: ['Х', 'Ц', 'Ш', 'Щ'] },
+            { letter: 'Ц', name: 'Ц', options: ['Ц', 'Ч', 'Ш', 'Щ'] },
+            { letter: 'Ч', name: 'Ч', options: ['Ч', 'Ц', 'Ш', 'Щ'] },
+            { letter: 'Ш', name: 'Ш', options: ['Ш', 'Щ', 'Ь', 'Ю'] },
+            { letter: 'Щ', name: 'Щ', options: ['Щ', 'Ь', 'Ю', 'Я'] },
+            { letter: 'Ь', name: 'Ь', options: ['Ь', 'Ю', 'Я', 'А'] },
+            { letter: 'Ю', name: 'Ю', options: ['Ю', 'Я', 'А', 'О'] },
+            { letter: 'Я', name: 'Я', options: ['Я', 'А', 'Е', 'І'] }
+        ];
+        
+        const numbers = [
+            { number: '1', name: '1', options: ['1', '2', '3', '4'] },
+            { number: '2', name: '2', options: ['2', '1', '3', '5'] },
+            { number: '3', name: '3', options: ['3', '2', '4', '8'] },
+            { number: '4', name: '4', options: ['4', '1', '7', '9'] },
+            { number: '5', name: '5', options: ['5', '2', '6', '8'] },
+            { number: '6', name: '6', options: ['6', '9', '5', '0'] },
+            { number: '7', name: '7', options: ['7', '1', '4', '9'] },
+            { number: '8', name: '8', options: ['8', '0', '3', '6'] },
+            { number: '9', name: '9', options: ['9', '6', '8', '4'] },
+            { number: '0', name: '0', options: ['0', '8', '6', '9'] }
+        ];
+        
+        const drawingLetters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Є', 'Ж', 'З', 'И', 'І', 'Ї', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ю', 'Я'];
+        
+        // Змінні гри
+        let currentGame = '';
         let currentQuestion = 0;
         let score = 0;
-        let gameQuestions = [];
         let answered = false;
+        let currentDrawingNumberIndex = 0; 
+        let currentDrawingLetterIndex = 0; 
+        
+        // Канвас для малювання цифр
+        let numberCanvas, numberCtx;
+        let currentNumberColor = '#000000';
+        let currentNumberBrushSize = 5; 
+        let currentNumberTool = 'pen'; 
+        let numberUndoStack = []; 
+        let numberRedoStack = []; 
+
+        // Канвас для малювання літер
+        let letterCanvas, letterCtx;
+        let currentLetterColor = '#000000';
+        let currentLetterBrushSize = 5; 
+        let currentLetterTool = 'pen'; 
+        let letterUndoStack = [];
+        let letterRedoStack = [];
+
+        // Канвас для вільного малювання
+        let freeCanvas, freeCtx;
+        let currentFreeColor = '#000000';
+        let currentFreeBrushSize = 5; 
+        let currentFreeTool = 'pen'; 
+        let freeUndoStack = [];
+        let freeRedoStack = [];
+
+        const MAX_UNDO_STATES = 10; 
+        
+        // --- Функції для синтезу мовлення ---
+        let speechSynth = window.speechSynthesis;
+        let ukrainianVoice = null;
+
+        // Завантажуємо український голос, коли він стане доступним
+        speechSynth.onvoiceschanged = () => {
+            const voices = speechSynth.getVoices();
+            ukrainianVoice = voices.find(voice => voice.lang === 'uk-UA' || voice.name.includes('Ukrainian'));
+            if (!ukrainianVoice) {
+                console.warn('Український голос не знайдено. Буде використано голос за замовчуванням.');
+            }
+        };
+
+        function speakText(text) {
+            if (!speechSynth) {
+                console.error('API синтезу мовлення не підтримується у вашому браузері.');
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'uk-UA'; // Встановлюємо українську мову
+            if (ukrainianVoice) {
+                utterance.voice = ukrainianVoice;
+            } else {
+                // Спробувати знайти голос за замовчуванням для української, якщо ukrainianVoice не встановлено
+                const voices = speechSynth.getVoices();
+                utterance.voice = voices.find(voice => voice.lang.startsWith('uk')) || voices.find(voice => voice.default);
+            }
+            
+            // Якщо вже щось говориться, зупиняємо перед початком нового
+            if (speechSynth.speaking) {
+                speechSynth.cancel();
+            }
+            speechSynth.speak(utterance);
+        }
+
+        // --- Кінець функцій для синтезу мовлення ---
+
+
+        function getCanvasState(canvas) {
+            return canvas.toDataURL();
+        }
+
+        function restoreCanvasState(canvas, ctx, state) {
+            const img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+            };
+            img.src = state;
+        }
+
+        function saveCanvasState(type) {
+            let canvas, undoStack, redoStack;
+            if (type === 'number') {
+                canvas = numberCanvas;
+                undoStack = numberUndoStack;
+                redoStack = numberRedoStack;
+            } else if (type === 'letter') {
+                canvas = letterCanvas;
+                undoStack = letterUndoStack;
+                redoStack = letterRedoStack;
+            } else if (type === 'free') {
+                canvas = freeCanvas;
+                undoStack = freeUndoStack;
+                redoStack = freeRedoStack;
+            }
+
+            if (!canvas) return;
+
+            // Clear redo stack on new action
+            redoStack.length = 0;
+
+            undoStack.push(getCanvasState(canvas));
+            if (undoStack.length > MAX_UNDO_STATES) {
+                undoStack.shift(); 
+            }
+        }
+
+        function undoCanvas(type) {
+            let canvas, ctx, undoStack, redoStack;
+            if (type === 'number') {
+                canvas = numberCanvas;
+                ctx = numberCtx;
+                undoStack = numberUndoStack;
+                redoStack = numberRedoStack;
+            } else if (type === 'letter') {
+                canvas = letterCanvas;
+                ctx = letterCtx;
+                undoStack = letterUndoStack;
+                redoStack = letterRedoStack;
+            } else if (type === 'free') {
+                canvas = freeCanvas;
+                ctx = freeCtx;
+                undoStack = freeUndoStack;
+                redoStack = freeRedoStack;
+            }
+
+            if (undoStack.length > 1) { 
+                const lastState = undoStack.pop();
+                redoStack.push(lastState); 
+                restoreCanvasState(canvas, ctx, undoStack[undoStack.length - 1]);
+            } else if (undoStack.length === 1) { 
+                redoStack.push(undoStack.pop()); 
+                clearCanvas(type, false); 
+                saveCanvasState(type); 
+            }
+        }
+
+        function redoCanvas(type) {
+            let canvas, ctx, undoStack, redoStack;
+            if (type === 'number') {
+                canvas = numberCanvas;
+                ctx = numberCtx;
+                undoStack = numberUndoStack;
+                redoStack = numberRedoStack;
+            } else if (type === 'letter') {
+                canvas = letterCanvas;
+                ctx = letterCtx;
+                undoStack = letterUndoStack;
+                redoStack = letterRedoStack;
+            } else if (type === 'free') {
+                canvas = freeCanvas;
+                ctx = freeCtx;
+                undoStack = freeUndoStack;
+                redoStack = freeRedoStack;
+            }
+
+            if (redoStack.length > 0) {
+                const nextState = redoStack.pop();
+                undoStack.push(nextState);
+                restoreCanvasState(canvas, ctx, nextState);
+            }
+        }
 
         function shuffleArray(array) {
             const newArray = [...array];
@@ -351,30 +850,63 @@
             }
             return newArray;
         }
-
-        function startGame() {
+        
+        function showMenu() {
+            document.querySelectorAll('.game-content, #final-screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+        
+        function startGame(gameType) {
+            currentGame = gameType;
             currentQuestion = 0;
             score = 0;
-            gameQuestions = shuffleArray(emotions).slice(0, 8); // 8 питань
-            document.getElementById('final-screen').style.display = 'none';
-            document.getElementById('game-area').style.display = 'block';
-            showQuestion();
+            answered = false;
+            
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('final-screen').classList.add('hidden');
+            
+            if (gameType === 'emotions') {
+                gameData = shuffleArray(emotions).slice(0, 8); 
+                document.getElementById('emotions-game').classList.remove('hidden');
+                showEmotionQuestion();
+            } else if (gameType === 'alphabet') {
+                gameData = shuffleArray(alphabet).slice(0, 8); 
+                document.getElementById('alphabet-game').classList.remove('hidden');
+                showAlphabetQuestion();
+            } else if (gameType === 'numbers') {
+                gameData = shuffleArray(numbers).slice(0, 8); 
+                document.getElementById('numbers-game').classList.remove('hidden');
+                showNumberQuestion();
+            } else if (gameType === 'drawing') {
+                document.getElementById('drawing-game').classList.remove('hidden');
+                initDrawingCanvas('number');
+                currentDrawingNumberIndex = 0; 
+                showDrawingNumber();
+            } else if (gameType === 'letter-drawing') { 
+                document.getElementById('letter-drawing-game').classList.remove('hidden');
+                initDrawingCanvas('letter');
+                currentDrawingLetterIndex = 0; 
+                showDrawingLetter();
+            } else if (gameType === 'free-drawing') { 
+                document.getElementById('free-drawing-game').classList.remove('hidden');
+                initDrawingCanvas('free');
+            }
         }
-
-        function showQuestion() {
-            if (currentQuestion >= gameQuestions.length) {
+        
+        function showEmotionQuestion() {
+            if (currentQuestion >= gameData.length) {
                 showFinalScreen();
                 return;
             }
-
+            
             answered = false;
-            const question = gameQuestions[currentQuestion];
+            const question = gameData[currentQuestion];
             
             document.getElementById('emotion-emoji').textContent = question.emoji;
-            document.getElementById('score').textContent = score;
-            document.getElementById('total').textContent = currentQuestion;
+            document.getElementById('emotions-score').textContent = score;
+            document.getElementById('emotions-total').textContent = gameData.length; 
             
-            const optionsContainer = document.getElementById('options');
+            const optionsContainer = document.getElementById('emotions-options');
             optionsContainer.innerHTML = '';
             
             const shuffledOptions = shuffleArray(question.options);
@@ -383,22 +915,82 @@
                 const button = document.createElement('button');
                 button.className = 'option-btn';
                 button.textContent = option;
-                button.onclick = () => selectOption(option, question.name, button);
+                button.onclick = () => selectOption(option, question.name, button, 'emotions');
                 optionsContainer.appendChild(button);
             });
             
-            document.getElementById('feedback').style.display = 'none';
-            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('emotions-feedback').classList.add('hidden');
+            document.getElementById('emotions-next').classList.add('hidden');
         }
-
-        function selectOption(selected, correct, buttonElement) {
+        
+        function showAlphabetQuestion() {
+            if (currentQuestion >= gameData.length) {
+                showFinalScreen();
+                return;
+            }
+            
+            answered = false;
+            const question = gameData[currentQuestion];
+            
+            document.getElementById('letter-display').textContent = question.letter;
+            document.getElementById('alphabet-score').textContent = score;
+            document.getElementById('alphabet-total').textContent = gameData.length; 
+            
+            const optionsContainer = document.getElementById('alphabet-options');
+            optionsContainer.innerHTML = '';
+            
+            const shuffledOptions = shuffleArray(question.options);
+            
+            shuffledOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectOption(option, question.name, button, 'alphabet');
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('alphabet-feedback').classList.add('hidden');
+            document.getElementById('alphabet-next').classList.add('hidden');
+        }
+        
+        function showNumberQuestion() {
+            if (currentQuestion >= gameData.length) {
+                showFinalScreen();
+                return;
+            }
+            
+            answered = false;
+            const question = gameData[currentQuestion];
+            
+            document.getElementById('number-display').textContent = question.number;
+            document.getElementById('numbers-score').textContent = score;
+            document.getElementById('numbers-total').textContent = gameData.length; 
+            
+            const optionsContainer = document.getElementById('numbers-options');
+            optionsContainer.innerHTML = '';
+            
+            const shuffledOptions = shuffleArray(question.options);
+            
+            shuffledOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectOption(option, question.name, button, 'numbers');
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('numbers-feedback').classList.add('hidden');
+            document.getElementById('numbers-next').classList.add('hidden');
+        }
+        
+        function selectOption(selected, correct, buttonElement, gameType) {
             if (answered) return;
             answered = true;
 
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            const buttons = document.querySelectorAll(`#${gameType}-options .option-btn`);
+            buttons.forEach(btn => btn.style.pointerEvents = 'none'); 
 
-            const feedback = document.getElementById('feedback');
+            const feedback = document.getElementById(`${gameType}-feedback`);
             
             if (selected === correct) {
                 score++;
@@ -407,20 +999,20 @@
                 feedback.className = 'feedback correct';
             } else {
                 buttonElement.classList.add('wrong');
-                // Показати правильну відповідь
                 buttons.forEach(btn => {
                     if (btn.textContent === correct) {
-                        btn.classList.add('correct');
+                        btn.classList.add('correct'); 
                     }
                 });
                 feedback.textContent = `Не зовсім. Правильна відповідь: ${correct} 🤔`;
                 feedback.className = 'feedback wrong';
             }
             
-            feedback.style.display = 'block';
-            document.getElementById('next-btn').style.display = 'inline-block';
+            feedback.classList.remove('hidden');
+            document.getElementById(`${gameType}-next`).classList.remove('hidden');
+            document.getElementById(`${gameType}-score`).textContent = score;
         }
-
+        
         function nextQuestion() {
             currentQuestion++;
             const buttons = document.querySelectorAll('.option-btn');
@@ -428,32 +1020,322 @@
                 btn.style.pointerEvents = 'auto';
                 btn.classList.remove('correct', 'wrong');
             });
-            showQuestion();
-        }
-
-        function showFinalScreen() {
-            document.getElementById('game-area').style.display = 'none';
-            document.getElementById('final-screen').style.display = 'block';
             
-            const percentage = Math.round((score / gameQuestions.length) * 100);
-            document.getElementById('final-score-text').textContent = `${score} з ${gameQuestions.length} (${percentage}%)`;
+            if (currentGame === 'emotions') {
+                showEmotionQuestion();
+            } else if (currentGame === 'alphabet') {
+                showAlphabetQuestion();
+            } else if (currentGame === 'numbers') {
+                showNumberQuestion();
+            }
+            if (document.getElementById(`${currentGame}-score`)) {
+                document.getElementById(`${currentGame}-score`).textContent = score;
+            }
+        }
+        
+        function showFinalScreen() {
+            document.querySelectorAll('.game-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('final-screen').classList.remove('hidden');
+            
+            const percentage = Math.round((score / gameData.length) * 100);
+            document.getElementById('final-score-text').textContent = `${score} з ${gameData.length} (${percentage}%)`;
             
             const messageElement = document.getElementById('final-message');
             if (percentage >= 80) {
-                messageElement.textContent = 'Фантастично! Ти справжній експерт з емоцій! 🌟';
+                messageElement.textContent = 'Фантастично! Ти справжній експерт! 🌟';
             } else if (percentage >= 60) {
-                messageElement.textContent = 'Добре! Ти непогано розумієшся на емоціях! 👍';
+                messageElement.textContent = 'Добре! Ти молодець! 👍';
             } else {
-                messageElement.textContent = 'Не засмучуйся! Спробуй ще раз і ти обов\'язково покращишся! 💪';
+                messageElement.textContent = 'Не засмучуйся! Спробуй ще раз! 💪';
+            }
+        }
+        
+        function restartCurrentGame() {
+            startGame(currentGame);
+        }
+        
+        // Функції для малювання
+        function initDrawingCanvas(type) {
+            let canvas, ctx, defaultColor, defaultBrushSize, undoStack, redoStack;
+
+            if (type === 'number') {
+                canvas = document.getElementById('drawingCanvas');
+                ctx = canvas.getContext('2d');
+                numberCanvas = canvas; 
+                numberCtx = ctx;
+                defaultColor = currentNumberColor;
+                defaultBrushSize = currentNumberBrushSize;
+                undoStack = numberUndoStack;
+                redoStack = numberRedoStack;
+            } else if (type === 'letter') {
+                canvas = document.getElementById('letterDrawingCanvas');
+                ctx = canvas.getContext('2d');
+                letterCanvas = canvas; 
+                letterCtx = ctx;
+                defaultColor = currentLetterColor;
+                defaultBrushSize = currentLetterBrushSize;
+                undoStack = letterUndoStack;
+                redoStack = letterRedoStack;
+            } else if (type === 'free') { 
+                canvas = document.getElementById('freeDrawingCanvas');
+                ctx = canvas.getContext('2d');
+                freeCanvas = canvas; 
+                freeCtx = ctx;
+                defaultColor = currentFreeColor;
+                defaultBrushSize = currentFreeBrushSize;
+                undoStack = freeUndoStack;
+                redoStack = freeRedoStack;
+            }
+            
+            resizeCanvas(canvas);
+            setupDrawingEvents(canvas, ctx, type);
+            ctx.lineWidth = defaultBrushSize; 
+            ctx.strokeStyle = defaultColor; 
+            
+            clearCanvas(type, false); 
+            undoStack.length = 0; 
+            redoStack.length = 0; 
+            saveCanvasState(type); 
+
+            // Setup color buttons
+            document.querySelectorAll(`.color-btn[data-canvas="${canvas.id}"]`).forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll(`.color-btn[data-canvas="${canvas.id}"]`).forEach(activeBtn => activeBtn.classList.remove('active'));
+                    btn.classList.add('active');
+                    if (type === 'number') {
+                        currentNumberColor = btn.dataset.color;
+                        currentNumberTool = 'pen'; 
+                        numberCtx.strokeStyle = currentNumberColor;
+                    } else if (type === 'letter') {
+                        currentLetterColor = btn.dataset.color;
+                        currentLetterTool = 'pen'; 
+                        letterCtx.strokeStyle = currentLetterColor;
+                    } else if (type === 'free') {
+                        currentFreeColor = btn.dataset.color;
+                        currentFreeTool = 'pen'; 
+                        freeCtx.strokeStyle = currentFreeColor;
+                    }
+                    document.querySelector(`.tool-btn[data-canvas="${canvas.id}"][data-tool="pen"]`).classList.add('active');
+                    document.querySelector(`.tool-btn[data-canvas="${canvas.id}"][data-tool="eraser"]`).classList.remove('active');
+
+                };
+            });
+
+            // Setup tool buttons (pen, eraser)
+            document.querySelectorAll(`.tool-btn[data-canvas="${canvas.id}"][data-tool]`).forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll(`.tool-btn[data-canvas="${canvas.id}"][data-tool]`).forEach(activeBtn => activeBtn.classList.remove('active'));
+                    btn.classList.add('active');
+                    const tool = btn.dataset.tool;
+                    if (type === 'number') {
+                        currentNumberTool = tool;
+                        numberCtx.strokeStyle = (tool === 'eraser') ? 'white' : currentNumberColor;
+                    } else if (type === 'letter') {
+                        currentLetterTool = tool;
+                        letterCtx.strokeStyle = (tool === 'eraser') ? 'white' : currentLetterColor;
+                    } else if (type === 'free') {
+                        currentFreeTool = tool;
+                        freeCtx.strokeStyle = (tool === 'eraser') ? 'white' : currentFreeColor;
+                    }
+                };
+            });
+
+            // Setup size buttons
+            document.querySelectorAll(`.tool-btn[data-canvas="${canvas.id}"][data-size]`).forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll(`.tool-btn[data-canvas="${canvas.id}"][data-size]`).forEach(activeBtn => activeBtn.classList.remove('active'));
+                    btn.classList.add('active');
+                    const size = parseInt(btn.dataset.size);
+                    if (type === 'number') {
+                        currentNumberBrushSize = size;
+                        numberCtx.lineWidth = currentNumberBrushSize;
+                    } else if (type === 'letter') {
+                        currentLetterBrushSize = size;
+                        letterCtx.lineWidth = currentLetterBrushSize;
+                    } else if (type === 'free') {
+                        currentFreeBrushSize = size;
+                        freeCtx.lineWidth = currentFreeBrushSize;
+                    }
+                };
+            });
+
+            document.querySelector(`.tool-btn[data-canvas="${canvas.id}"][data-tool="pen"]`).classList.add('active');
+            document.querySelector(`.tool-btn[data-canvas="${canvas.id}"][data-size="5"]`).classList.add('active');
+        }
+
+        function setupDrawingEvents(canvas, ctx, type) {
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function draw(e) {
+                if (!isDrawing) return;
+                e.preventDefault(); 
+                const { x, y } = getCanvasCoordinates(e, canvas);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                [lastX, lastY] = [x, y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); 
+                isDrawing = true;
+                const { x, y } = getCanvasCoordinates(e, canvas);
+                [lastX, lastY] = [x, y];
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+
+            function stopDrawing() {
+                if (isDrawing) { 
+                    saveCanvasState(type);
+                }
+                isDrawing = false;
+                ctx.closePath();
+            }
+            
+            canvas.removeEventListener('mousedown', startDrawing);
+            canvas.removeEventListener('mousemove', draw);
+            canvas.removeEventListener('mouseup', stopDrawing);
+            canvas.removeEventListener('mouseout', stopDrawing);
+            canvas.removeEventListener('touchstart', startDrawing);
+            canvas.removeEventListener('touchmove', draw);
+            canvas.removeEventListener('touchend', stopDrawing);
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', draw, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function resizeCanvas(canvas) {
+            const container = canvas.closest('.drawing-container');
+            if (container) {
+                const containerWidth = container.offsetWidth;
+                const canvasHeight = Math.min(containerWidth * 0.75, 400); 
+                canvas.width = Math.min(containerWidth, 500); 
+                canvas.height = canvasHeight;
+            }
+            let ctxToUse, colorToUse, brushSizeToUse, toolToUse;
+            if (canvas.id === 'drawingCanvas' && numberCtx) {
+                ctxToUse = numberCtx;
+                colorToUse = currentNumberColor;
+                brushSizeToUse = currentNumberBrushSize;
+                toolToUse = currentNumberTool;
+            } else if (canvas.id === 'letterDrawingCanvas' && letterCtx) {
+                ctxToUse = letterCtx;
+                colorToUse = currentLetterColor;
+                brushSizeToUse = currentLetterBrushSize;
+                toolToUse = currentLetterTool;
+            } else if (canvas.id === 'freeDrawingCanvas' && freeCtx) {
+                ctxToUse = freeCtx;
+                colorToUse = currentFreeColor;
+                brushSizeToUse = currentFreeBrushSize;
+                toolToUse = currentFreeTool;
+            } else {
+                return; 
+            }
+
+            if (ctxToUse) {
+                ctxToUse.lineCap = 'round';
+                ctxToUse.lineJoin = 'round';
+                ctxToUse.lineWidth = brushSizeToUse;
+                ctxToUse.strokeStyle = (toolToUse === 'eraser') ? 'white' : colorToUse;
+            }
+        }
+        
+        function getCanvasCoordinates(e, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            let x, y;
+            if (e.touches && e.touches.length > 0) { 
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else { 
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            return { x, y };
+        }
+
+        function clearCanvas(type, saveNewState = true) {
+            let canvas, ctx;
+            if (type === 'number') {
+                canvas = numberCanvas;
+                ctx = numberCtx;
+            } else if (type === 'letter') {
+                canvas = letterCanvas;
+                ctx = letterCtx;
+            } else if (type === 'free') {
+                canvas = freeCanvas;
+                ctx = freeCtx;
+            }
+
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let color, brushSize, tool;
+                if (type === 'number') {
+                    color = currentNumberColor;
+                    brushSize = currentNumberBrushSize;
+                    tool = currentNumberTool;
+                } else if (type === 'letter') {
+                    color = currentLetterColor;
+                    brushSize = currentLetterBrushSize;
+                    tool = currentLetterTool;
+                } else if (type === 'free') {
+                    color = currentFreeColor;
+                    brushSize = currentFreeBrushSize;
+                    tool = currentFreeTool;
+                }
+                ctx.strokeStyle = (tool === 'eraser') ? 'white' : color;
+                ctx.lineWidth = brushSize;
+                if (saveNewState) {
+                    saveCanvasState(type); 
+                }
             }
         }
 
-        // Event listeners
-        document.getElementById('next-btn').onclick = nextQuestion;
-        document.getElementById('restart-btn').onclick = startGame;
+        function showDrawingNumber() {
+            document.getElementById('draw-number').textContent = numbers[currentDrawingNumberIndex].number;
+            clearCanvas('number'); 
+            numberUndoStack = []; 
+            numberRedoStack = []; 
+            saveCanvasState('number');
+        }
 
-        // Start the game
-        startGame();
+        function showDrawingLetter() {
+            document.getElementById('draw-letter').textContent = drawingLetters[currentDrawingLetterIndex];
+            clearCanvas('letter'); 
+            letterUndoStack = []; 
+            letterRedoStack = []; 
+            saveCanvasState('letter');
+        }
+
+        function nextDrawingItem(type) {
+            if (type === 'number') {
+                currentDrawingNumberIndex++;
+                if (currentDrawingNumberIndex >= numbers.length) {
+                    currentDrawingNumberIndex = 0; 
+                }
+                showDrawingNumber();
+            } else if (type === 'letter') {
+                currentDrawingLetterIndex++;
+                if (currentDrawingLetterIndex >= drawingLetters.length) {
+                    currentDrawingLetterIndex = 0; 
+                }
+                showDrawingLetter();
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (numberCanvas) resizeCanvas(numberCanvas);
+            if (letterCanvas) resizeCanvas(letterCanvas);
+            if (freeCanvas) resizeCanvas(freeCanvas);
+        });
+
     </script>
 </body>
 </html>
