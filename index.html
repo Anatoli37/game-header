@@ -351,6 +351,7 @@
             
             #drawingCanvas, #letterDrawingCanvas, #freeDrawingCanvas {
                 width: 100%;
+                height: 100%;
                 max-width: 600px;
                 height: 400px;
             }
@@ -565,7 +566,7 @@
         <div id="free-drawing-game" class="game-content hidden">
             <div class="free-drawing-mode">
                 <div class="drawing-container">
-                    <canvas id="freeDrawingCanvas" width="500" height="400"></canvas>
+                    <canvas id="freeDrawingCanvas" width="350" height="401"></canvas>
                     
                     <div class="drawing-controls">
                         <div class="color-btn active" style="background: #000" data-color="#000000" data-canvas="freeDrawingCanvas"></div>
@@ -1215,7 +1216,7 @@
                 const containerWidth = container.offsetWidth;
                 const canvasHeight = Math.min(containerWidth * 0.75, 400); 
                 canvas.width = Math.min(containerWidth, 500); 
-                canvas.height = canvasHeight;
+                canvas.height = 400;
             }
             let ctxToUse, colorToUse, brushSizeToUse, toolToUse;
             if (canvas.id === 'drawingCanvas' && numberCtx) {
