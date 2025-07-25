@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang=uk><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Освітня гра "Думай на рівних"</title><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.f1a83141.png><meta name=msapplication-TileColor content=#ffffff><meta name=theme-color content=#ffffff><style>*{box-sizing:border-box;margin:0;padding:0}body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);justify-content:center;align-items:center;min-height:100vh;margin:0;padding:10px;font-family:Comic Sans MS,cursive,sans-serif;display:flex}.game-container{text-align:center;background:#fff;border-radius:20px;flex-direction:column;width:100%;max-width:700px;min-height:80vh;padding:20px;display:flex;box-shadow:0 10px 30px #0000004d}h1{color:#4a5568;text-shadow:2px 2px 4px #0000001a;margin-bottom:15px;font-size:clamp(1.3em,3.5vw,2.2em);line-height:1.2}.menu-container{flex-direction:column;gap:15px;margin:20px 0;display:flex}.menu-btn{color:#fff;cursor:pointer;touch-action:manipulation;background:linear-gradient(145deg,#4299e1,#3182ce);border:none;border-radius:15px;padding:20px;font-family:inherit;font-size:clamp(1.1em,3vw,1.4em);font-weight:700;transition:all .3s}.menu-btn:hover{transform:translateY(-3px);box-shadow:0 8px 15px #0003}.menu-btn.emotions{background:linear-gradient(145deg,#48bb78,#38a169)}.menu-btn.alphabet{background:linear-gradient(145deg,#ed8936,#dd6b20)}.menu-btn.numbers{background:linear-gradient(145deg,#9f7aea,#805ad5)}.menu-btn.drawing{background:linear-gradient(145deg,#f56565,#e53e3e)}.menu-btn.letter-drawing{background:linear-gradient(145deg,#667eea,#764ba2)}.menu-btn.free-drawing{background:linear-gradient(145deg,#a3a3a3,#7a7a7a)}.game-content{flex-direction:column;flex:1;justify-content:space-between;display:flex}.display-area{cursor:pointer;justify-content:center;align-items:center;min-height:120px;font-size:clamp(8em,15vw,8em);line-height:1;animation:2s infinite bounce;display:flex}@keyframes bounce{0%,20%,50%,80%,to{transform:translateY(0)}40%{transform:translateY(-10px)}60%{transform:translateY(-5px)}}.question{color:#2d3748;margin-bottom:20px;font-size:clamp(1.1em,3vw,1.5em);font-weight:700;line-height:1.3}.options{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;display:grid}.option-btn{color:#4a5568;cursor:pointer;text-align:center;word-wrap:break-word;background:linear-gradient(145deg,#f7fafc,#edf2f7);border:3px solid #e2e8f0;border-radius:15px;justify-content:center;align-items:center;min-height:60px;padding:15px 10px;font-family:inherit;font-size:clamp(1em,2.5vw,1.2em);font-weight:700;transition:all .3s;display:flex}.option-btn:hover{background:linear-gradient(145deg,#e2e8f0,#cbd5e0);transform:translateY(-3px);box-shadow:0 8px 15px #0003}.option-btn.correct{color:#fff;background:linear-gradient(145deg,#68d391,#48bb78);border-color:#38a169}.option-btn.wrong{color:#fff;background:linear-gradient(145deg,#fc8181,#f56565);border-color:#e53e3e}.score{color:#4a5568;margin-bottom:15px;font-size:clamp(1.1em,3vw,1.3em);font-weight:700}.controls{flex-wrap:wrap;justify-content:center;gap:10px;margin-top:15px;display:flex}.btn{color:#fff;cursor:pointer;touch-action:manipulation;background:linear-gradient(145deg,#4299e1,#3182ce);border:none;border-radius:15px;min-height:50px;padding:12px 24px;font-family:inherit;font-size:clamp(1em,2.5vw,1.2em);font-weight:700;transition:all .3s}.btn:hover{transform:translateY(-2px);box-shadow:0 6px 12px #0003}.btn.back{background:linear-gradient(145deg,#718096,#4a5568)}.btn.restart{background:linear-gradient(145deg,#38a169,#2f855a)}.btn.undo{background:linear-gradient(145deg,#9f7aea,#805ad5)}.btn.redo{background:linear-gradient(145deg,#f06292,#ec407a)}.feedback{border-radius:10px;padding:12px;font-size:clamp(1.1em,3vw,1.4em);font-weight:700;line-height:1.3}.feedback.correct{color:#22543d;background:#c6f6d5}.feedback.wrong{color:#742a2a;background:#fed7d7}.final-score{color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:15px;margin:15px 0;padding:20px}.final-score h2{margin-bottom:10px;font-size:clamp(1.3em,4vw,2em)}.final-score p{margin:8px 0;font-size:clamp(1em,2.5vw,1.2em);line-height:1.4}.drawing-container{flex-direction:column;align-items:center;gap:15px;display:flex}#drawingCanvas,#letterDrawingCanvas,#freeDrawingCanvas{cursor:crosshair;touch-action:none;background:#fff;border:3px solid #4299e1;border-radius:15px}.drawing-controls{flex-wrap:wrap;justify-content:center;gap:10px;display:flex}.color-btn{cursor:pointer;border:3px solid #e2e8f0;border-radius:50%;width:40px;height:40px;transition:all .3s}.color-btn.active{border-color:#4299e1;transform:scale(1.2)}.tool-controls{flex-wrap:wrap;justify-content:center;gap:10px;margin-top:10px;display:flex}.tool-btn{color:#4a5568;cursor:pointer;background:#edf2f7;border:2px solid #e2e8f0;border-radius:10px;justify-content:center;align-items:center;width:50px;height:50px;padding:8px 15px;font-family:inherit;font-size:clamp(1em,2.5vw,1.4em);font-weight:700;transition:all .2s;display:flex}.tool-btn:hover{background:#cbd5e0;transform:translateY(-1px)}.tool-btn.active{color:#fff;background:#4299e1;border-color:#3182ce;box-shadow:0 4px 8px #0003}.number-practice,.letter-practice,.free-drawing-mode{flex-direction:column;align-items:center;gap:20px;display:flex}.number-display,.letter-display-draw{color:#4299e1;text-shadow:2px 2px 4px #0003;font-size:clamp(6em,20vw,12em);font-weight:700}.trace-instruction{color:#4a5568;margin-bottom:10px;font-size:clamp(1em,2.5vw,1.3em)}@media (width<=480px){body{padding:5px}.game-container{border-radius:15px;min-height:90vh;padding:15px}.options{gap:10px}.menu-container{gap:12px}.menu-btn{padding:15px}#drawingCanvas,#letterDrawingCanvas,#freeDrawingCanvas{width:100%;max-width:600px;height:400px}.drawing-controls,.tool-controls{gap:5px}.color-btn{width:35px;height:35px}.tool-btn{width:45px;height:45px;font-size:clamp(.9em,2.2vw,1.2em)}}@media (width>=481px) and (width<=768px){.options{grid-template-columns:repeat(2,1fr)}#drawingCanvas,#letterDrawingCanvas,#freeDrawingCanvas{width:400px;height:300px}.tool-btn{width:55px;height:55px}}@media (width>=769px){.options{grid-template-columns:repeat(3,1fr)}#drawingCanvas,#letterDrawingCanvas,#freeDrawingCanvas{width:500px;height:400px}.tool-btn{width:60px;height:60px}}.hidden{display:none}</style><body>
+    <div class=game-container>
+        
+        <div id=main-menu class=menu-container>
+            <button class="emotions menu-btn" onclick="startGame('emotions')">
+                😊 Розпізнавання емоцій
+            </button>
+            <button class="alphabet menu-btn" onclick="startGame('alphabet')">
+                🔤 Вивчення алфавіту
+            </button>
+            <button class="menu-btn numbers" onclick="startGame('numbers')">
+                🔢 Вивчення цифр
+            </button>
+            <button class="drawing menu-btn" onclick="startGame('drawing')">
+                ✏️ Малювання цифр
+            </button>
+            <button class="letter-drawing menu-btn" onclick="startGame('letter-drawing')">
+                ✍️ Малювання літер
+            </button>
+            <button class="free-drawing menu-btn" onclick="startGame('free-drawing')">
+                🎨 Вільне малювання
+            </button>
+        </div>
+        
+        <div id=emotions-game class="game-content hidden">
+            <div class=score>
+                Рахунок: <span id=emotions-score>0</span> / <span id=emotions-total>0</span>
+            </div>
+            
+            <div class=display-area id=emotion-emoji>😊</div>
+            <div class=question>Яка це емоція?</div>
+            
+            <div class=options id=emotions-options></div>
+            
+            <div id=emotions-feedback class="feedback hidden"></div>
+            
+            <div class=controls>
+                <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                <button id=emotions-next class="btn hidden" onclick=nextQuestion()>Далі</button>
+            </div>
+        </div>
+        
+        <div id=alphabet-game class="game-content hidden">
+            <div class=score>
+                Рахунок: <span id=alphabet-score>0</span> / <span id=alphabet-total>0</span>
+            </div>
+            
+            <div class=display-area id=letter-display onclick=speakText(this.textContent)>А</div>
+            <div class=question>Яка це літера?</div>
+            
+            <div class=options id=alphabet-options></div>
+            
+            <div id=alphabet-feedback class="feedback hidden"></div>
+            
+            <div class=controls>
+                <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                <button id=alphabet-next class="btn hidden" onclick=nextQuestion()>Далі</button>
+            </div>
+        </div>
+        
+        <div id=numbers-game class="game-content hidden">
+            <div class=score>
+                Рахунок: <span id=numbers-score>0</span> / <span id=numbers-total>0</span>
+            </div>
+            
+            <div class=display-area id=number-display onclick=speakText(this.textContent)>1</div>
+            <div class=question>Яка це цифра?</div>
+            
+            <div class=options id=numbers-options></div>
+            
+            <div id=numbers-feedback class="feedback hidden"></div>
+            
+            <div class=controls>
+                <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                <button id=numbers-next class="btn hidden" onclick=nextQuestion()>Далі</button>
+            </div>
+        </div>
+        
+        <div id=drawing-game class="game-content hidden">
+            <div class=number-practice>
+                <div class=number-display id=draw-number onclick=speakText(this.textContent)>1</div>
+                
+                <div class=drawing-container>
+                    <canvas id=drawingCanvas width=500 height=400></canvas>
+                    
+                    <div class=drawing-controls>
+                        <div class="active color-btn" style=background:#000 data-color=#000000 data-canvas=drawingCanvas></div>
+                        <div class=color-btn style=background:red data-color=#FF0000 data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:#0f0 data-color=#00FF00 data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:#00f data-color=#0000FF data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:#ff0 data-color=#FFFF00 data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:#f0f data-color=#FF00FF data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:#0ff data-color=#00FFFF data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:orange data-color=#FFA500 data-canvas=drawingCanvas></div> 
+                        <div class=color-btn style=background:purple data-color=#800080 data-canvas=drawingCanvas></div> 
+                    </div>
+                    <div class=tool-controls>
+                        <button class="active tool-btn" data-tool=pen data-canvas=drawingCanvas>🖊️</button>
+                        <button class=tool-btn data-tool=eraser data-canvas=drawingCanvas>🧽</button>
+                        <button class=tool-btn data-size=3 data-canvas=drawingCanvas>⚪</button>
+                        <button class="active tool-btn" data-size=5 data-canvas=drawingCanvas>🔵</button>
+                        <button class=tool-btn data-size=10 data-canvas=drawingCanvas>🔴</button>
+                    </div>
+                </div>
+                
+                <div class=controls>
+                    <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                    <button class=btn onclick="clearCanvas('number')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('number')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('number')">↪️</button>
+                    <button class=btn onclick="nextDrawingItem('number')">➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id=letter-drawing-game class="game-content hidden">
+            <div class=letter-practice>
+                <div class=letter-display-draw id=draw-letter onclick=speakText(this.textContent)>А</div>
+                
+                <div class=drawing-container>
+                    <canvas id=letterDrawingCanvas width=500 height=400></canvas>
+                    
+                    <div class=drawing-controls>
+                        <div class="active color-btn" style=background:#000 data-color=#000000 data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:red data-color=#FF0000 data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:#0f0 data-color=#00FF00 data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:#00f data-color=#0000FF data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:#ff0 data-color=#FFFF00 data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:#f0f data-color=#FF00FF data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:#0ff data-color=#00FFFF data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:orange data-color=#FFA500 data-canvas=letterDrawingCanvas></div>
+                        <div class=color-btn style=background:purple data-color=#800080 data-canvas=letterDrawingCanvas></div>
+                    </div>
+                    <div class=tool-controls>
+                        <button class="active tool-btn" data-tool=pen data-canvas=letterDrawingCanvas>🖊️</button>
+                        <button class=tool-btn data-tool=eraser data-canvas=letterDrawingCanvas>🧽</button>
+                        <button class=tool-btn data-size=3 data-canvas=letterDrawingCanvas>⚪</button>
+                        <button class="active tool-btn" data-size=5 data-canvas=letterDrawingCanvas>🔵</button>
+                        <button class=tool-btn data-size=10 data-canvas=letterDrawingCanvas>🔴</button>
+                    </div>
+                </div>
+                
+                <div class=controls>
+                    <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                    <button class=btn onclick="clearCanvas('letter')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('letter')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('letter')">↪️</button>
+                    <button class=btn onclick="nextDrawingItem('letter')">➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id=free-drawing-game class="game-content hidden">
+            <div class=free-drawing-mode>
+                <div class=drawing-container>
+                    <canvas id=freeDrawingCanvas width=350 height=401></canvas>
+                    
+                    <div class=drawing-controls>
+                        <div class="active color-btn" style=background:#000 data-color=#000000 data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:red data-color=#FF0000 data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:#0f0 data-color=#00FF00 data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:#00f data-color=#0000FF data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:#ff0 data-color=#FFFF00 data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:#f0f data-color=#FF00FF data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:#0ff data-color=#00FFFF data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:orange data-color=#FFA500 data-canvas=freeDrawingCanvas></div>
+                        <div class=color-btn style=background:purple data-color=#800080 data-canvas=freeDrawingCanvas></div>
+                    </div>
+                    <div class=tool-controls>
+                        <button class="active tool-btn" data-tool=pen data-canvas=freeDrawingCanvas>🖊️</button>
+                        <button class=tool-btn data-tool=eraser data-canvas=freeDrawingCanvas>🧽</button>
+                        <button class=tool-btn data-size=3 data-canvas=freeDrawingCanvas>⚪</button>
+                        <button class="active tool-btn" data-size=5 data-canvas=freeDrawingCanvas>🔵</button>
+                        <button class=tool-btn data-size=10 data-canvas=freeDrawingCanvas>🔴</button>
+                    </div>
+                </div>
+                
+                <div class=controls>
+                    <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                    <button class=btn onclick="clearCanvas('free')">🗑️</button>
+                    <button class="btn undo" onclick="undoCanvas('free')">↩️</button>
+                    <button class="btn redo" onclick="redoCanvas('free')">↪️</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id=final-screen class=hidden>
+            <div class=final-score>
+                <h2>🎉 Молодець!</h2>
+                <p>Твій результат: <span id=final-score-text></span></p>
+                <p id=final-message></p>
+            </div>
+            <div class=controls>
+                <button class="back btn" onclick=showMenu()>🏠 Меню</button>
+                <button class="btn restart" onclick=restartCurrentGame()>🔄 Ще раз</button>
+            </div>
+        </div>
+    </div>
+
+    <script>let numberCanvas,numberCtx,letterCanvas,letterCtx,freeCanvas,freeCtx,emotions=[{emoji:"\uD83D\uDE0A",name:"Радість",options:["Радість","Сум","Злість","Страх"]},{emoji:"\uD83D\uDE22",name:"Сум",options:["Радість","Сум","Здивування","Злість"]},{emoji:"\uD83D\uDE20",name:"Злість",options:["Сум","Радість","Злість","Страх"]},{emoji:"\uD83D\uDE28",name:"Страх",options:["Злість","Радість","Страх","Сум"]},{emoji:"\uD83D\uDE2E",name:"Здивування",options:["Здивування","Радість","Сум","Злість"]},{emoji:"\uD83D\uDE34",name:"Втома",options:["Радість","Втома","Злість","Страх"]},{emoji:"\uD83E\uDD14",name:"Роздуми",options:["Роздуми","Сум","Радість","Злість"]},{emoji:"\uD83D\uDE0D",name:"Закоханість",options:["Злість","Закоханість","Страх","Сум"]},{emoji:"\uD83E\uDD17",name:"Ніжність",options:["Ніжність","Злість","Страх","Сум"]},{emoji:"\uD83D\uDE24",name:"Обурення",options:["Радість","Сум","Обурення","Страх"]}],alphabet=[{letter:"А",name:"А",options:["А","О","У","І"]},{letter:"Б",name:"Б",options:["Б","В","Г","Д"]},{letter:"В",name:"В",options:["В","Б","Г","Ж"]},{letter:"Г",name:"Г",options:["Г","Ґ","Д","Е"]},{letter:"Д",name:"Д",options:["Д","Б","З","К"]},{letter:"Е",name:"Е",options:["Е","Є","І","А"]},{letter:"Ж",name:"Ж",options:["Ж","З","Х","Ш"]},{letter:"З",name:"З",options:["З","С","Ж","Ч"]},{letter:"І",name:"І",options:["І","Ї","Й","У"]},{letter:"К",name:"К",options:["К","Х","Р","П"]},{letter:"Л",name:"Л",options:["Л","М","Н","К"]},{letter:"М",name:"М",options:["М","Н","Л","П"]},{letter:"Н",name:"Н",options:["Н","М","Р","О"]},{letter:"О",name:"О",options:["О","А","У","И"]},{letter:"П",name:"П",options:["П","Р","С","Т"]},{letter:"Р",name:"Р",options:["Р","П","С","Ф"]},{letter:"С",name:"С",options:["С","Т","Р","Н"]},{letter:"Т",name:"Т",options:["Т","У","Ф","Х"]},{letter:"У",name:"У",options:["У","Ю","Я","И"]},{letter:"Ф",name:"Ф",options:["Ф","Х","Ц","Ч"]},{letter:"Х",name:"Х",options:["Х","Ц","Ш","Щ"]},{letter:"Ц",name:"Ц",options:["Ц","Ч","Ш","Щ"]},{letter:"Ч",name:"Ч",options:["Ч","Ц","Ш","Щ"]},{letter:"Ш",name:"Ш",options:["Ш","Щ","Ь","Ю"]},{letter:"Щ",name:"Щ",options:["Щ","Ь","Ю","Я"]},{letter:"Ь",name:"Ь",options:["Ь","Ю","Я","А"]},{letter:"Ю",name:"Ю",options:["Ю","Я","А","О"]},{letter:"Я",name:"Я",options:["Я","А","Е","І"]}],numbers=[{number:"1",name:"1",options:["1","2","3","4"]},{number:"2",name:"2",options:["2","1","3","5"]},{number:"3",name:"3",options:["3","2","4","8"]},{number:"4",name:"4",options:["4","1","7","9"]},{number:"5",name:"5",options:["5","2","6","8"]},{number:"6",name:"6",options:["6","9","5","0"]},{number:"7",name:"7",options:["7","1","4","9"]},{number:"8",name:"8",options:["8","0","3","6"]},{number:"9",name:"9",options:["9","6","8","4"]},{number:"0",name:"0",options:["0","8","6","9"]}],drawingLetters=["А","Б","В","Г","Д","Е","Є","Ж","З","И","І","Ї","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ь","Ю","Я"],currentGame="",currentQuestion=0,score=0,answered=!1,currentDrawingNumberIndex=0,currentDrawingLetterIndex=0,currentNumberColor="#000000",currentNumberBrushSize=5,currentNumberTool="pen",numberUndoStack=[],numberRedoStack=[],currentLetterColor="#000000",currentLetterBrushSize=5,currentLetterTool="pen",letterUndoStack=[],letterRedoStack=[],currentFreeColor="#000000",currentFreeBrushSize=5,currentFreeTool="pen",freeUndoStack=[],freeRedoStack=[],MAX_UNDO_STATES=10,speechSynth=window.speechSynthesis,ukrainianVoice=null;function speakText(e){if(!speechSynth)return void console.error("API синтезу мовлення не підтримується у вашому браузері.");let t=new SpeechSynthesisUtterance(e);if(t.lang="uk-UA",ukrainianVoice)t.voice=ukrainianVoice;else{let e=speechSynth.getVoices();t.voice=e.find(e=>e.lang.startsWith("uk"))||e.find(e=>e.default)}speechSynth.speaking&&speechSynth.cancel(),speechSynth.speak(t)}function getCanvasState(e){return e.toDataURL()}function restoreCanvasState(e,t,n){let r=new Image;r.onload=()=>{t.clearRect(0,0,e.width,e.height),t.drawImage(r,0,0)},r.src=n}function saveCanvasState(e){let t,n,r;"number"===e?(t=numberCanvas,n=numberUndoStack,r=numberRedoStack):"letter"===e?(t=letterCanvas,n=letterUndoStack,r=letterRedoStack):"free"===e&&(t=freeCanvas,n=freeUndoStack,r=freeRedoStack),t&&(r.length=0,n.push(getCanvasState(t)),n.length>10&&n.shift())}function undoCanvas(e){let t,n,r,o;if("number"===e?(t=numberCanvas,n=numberCtx,r=numberUndoStack,o=numberRedoStack):"letter"===e?(t=letterCanvas,n=letterCtx,r=letterUndoStack,o=letterRedoStack):"free"===e&&(t=freeCanvas,n=freeCtx,r=freeUndoStack,o=freeRedoStack),r.length>1){let e=r.pop();o.push(e),restoreCanvasState(t,n,r[r.length-1])}else 1===r.length&&(o.push(r.pop()),clearCanvas(e,!1),saveCanvasState(e))}function redoCanvas(e){let t,n,r,o;if("number"===e?(t=numberCanvas,n=numberCtx,r=numberUndoStack,o=numberRedoStack):"letter"===e?(t=letterCanvas,n=letterCtx,r=letterUndoStack,o=letterRedoStack):"free"===e&&(t=freeCanvas,n=freeCtx,r=freeUndoStack,o=freeRedoStack),o.length>0){let e=o.pop();r.push(e),restoreCanvasState(t,n,e)}}function shuffleArray(e){let t=[...e];for(let e=t.length-1;e>0;e--){let n=Math.floor(Math.random()*(e+1));[t[e],t[n]]=[t[n],t[e]]}return t}function showMenu(){document.querySelectorAll(".game-content, #final-screen").forEach(e=>e.classList.add("hidden")),document.getElementById("main-menu").classList.remove("hidden")}function startGame(e){currentGame=e,currentQuestion=0,score=0,answered=!1,document.getElementById("main-menu").classList.add("hidden"),document.getElementById("final-screen").classList.add("hidden"),"emotions"===e?(gameData=shuffleArray(emotions).slice(0,8),document.getElementById("emotions-game").classList.remove("hidden"),showEmotionQuestion()):"alphabet"===e?(gameData=shuffleArray(alphabet).slice(0,8),document.getElementById("alphabet-game").classList.remove("hidden"),showAlphabetQuestion()):"numbers"===e?(gameData=shuffleArray(numbers).slice(0,8),document.getElementById("numbers-game").classList.remove("hidden"),showNumberQuestion()):"drawing"===e?(document.getElementById("drawing-game").classList.remove("hidden"),initDrawingCanvas("number"),currentDrawingNumberIndex=0,showDrawingNumber()):"letter-drawing"===e?(document.getElementById("letter-drawing-game").classList.remove("hidden"),initDrawingCanvas("letter"),currentDrawingLetterIndex=0,showDrawingLetter()):"free-drawing"===e&&(document.getElementById("free-drawing-game").classList.remove("hidden"),initDrawingCanvas("free"))}function showEmotionQuestion(){if(currentQuestion>=gameData.length)return void showFinalScreen();answered=!1;let e=gameData[currentQuestion];document.getElementById("emotion-emoji").textContent=e.emoji,document.getElementById("emotions-score").textContent=score,document.getElementById("emotions-total").textContent=gameData.length;let t=document.getElementById("emotions-options");t.innerHTML="",shuffleArray(e.options).forEach(n=>{let r=document.createElement("button");r.className="option-btn",r.textContent=n,r.onclick=()=>selectOption(n,e.name,r,"emotions"),t.appendChild(r)}),document.getElementById("emotions-feedback").classList.add("hidden"),document.getElementById("emotions-next").classList.add("hidden")}function showAlphabetQuestion(){if(currentQuestion>=gameData.length)return void showFinalScreen();answered=!1;let e=gameData[currentQuestion];document.getElementById("letter-display").textContent=e.letter,document.getElementById("alphabet-score").textContent=score,document.getElementById("alphabet-total").textContent=gameData.length;let t=document.getElementById("alphabet-options");t.innerHTML="",shuffleArray(e.options).forEach(n=>{let r=document.createElement("button");r.className="option-btn",r.textContent=n,r.onclick=()=>selectOption(n,e.name,r,"alphabet"),t.appendChild(r)}),document.getElementById("alphabet-feedback").classList.add("hidden"),document.getElementById("alphabet-next").classList.add("hidden")}function showNumberQuestion(){if(currentQuestion>=gameData.length)return void showFinalScreen();answered=!1;let e=gameData[currentQuestion];document.getElementById("number-display").textContent=e.number,document.getElementById("numbers-score").textContent=score,document.getElementById("numbers-total").textContent=gameData.length;let t=document.getElementById("numbers-options");t.innerHTML="",shuffleArray(e.options).forEach(n=>{let r=document.createElement("button");r.className="option-btn",r.textContent=n,r.onclick=()=>selectOption(n,e.name,r,"numbers"),t.appendChild(r)}),document.getElementById("numbers-feedback").classList.add("hidden"),document.getElementById("numbers-next").classList.add("hidden")}function selectOption(e,t,n,r){if(answered)return;answered=!0;let o=document.querySelectorAll(`#${r}-options .option-btn`);o.forEach(e=>e.style.pointerEvents="none");let a=document.getElementById(`${r}-feedback`);e===t?(score++,n.classList.add("correct"),a.textContent="Правильно! Молодець! \uD83C\uDF89",a.className="feedback correct"):(n.classList.add("wrong"),o.forEach(e=>{e.textContent===t&&e.classList.add("correct")}),a.textContent=`\u{41D}\u{435} \u{437}\u{43E}\u{432}\u{441}\u{456}\u{43C}. \u{41F}\u{440}\u{430}\u{432}\u{438}\u{43B}\u{44C}\u{43D}\u{430} \u{432}\u{456}\u{434}\u{43F}\u{43E}\u{432}\u{456}\u{434}\u{44C}: ${t} \u{1F914}`,a.className="feedback wrong"),a.classList.remove("hidden"),document.getElementById(`${r}-next`).classList.remove("hidden"),document.getElementById(`${r}-score`).textContent=score}function nextQuestion(){currentQuestion++,document.querySelectorAll(".option-btn").forEach(e=>{e.style.pointerEvents="auto",e.classList.remove("correct","wrong")}),"emotions"===currentGame?showEmotionQuestion():"alphabet"===currentGame?showAlphabetQuestion():"numbers"===currentGame&&showNumberQuestion(),document.getElementById(`${currentGame}-score`)&&(document.getElementById(`${currentGame}-score`).textContent=score)}function showFinalScreen(){document.querySelectorAll(".game-content").forEach(e=>e.classList.add("hidden")),document.getElementById("final-screen").classList.remove("hidden");let e=Math.round(score/gameData.length*100);document.getElementById("final-score-text").textContent=`${score} \u{437} ${gameData.length} (${e}%)`;let t=document.getElementById("final-message");e>=80?t.textContent="Фантастично! Ти справжній експерт! \uD83C\uDF1F":e>=60?t.textContent="Добре! Ти молодець! \uD83D\uDC4D":t.textContent="Не засмучуйся! Спробуй ще раз! \uD83D\uDCAA"}function restartCurrentGame(){startGame(currentGame)}function initDrawingCanvas(e){let t,n,r,o,a,s;"number"===e?(n=(t=document.getElementById("drawingCanvas")).getContext("2d"),numberCanvas=t,numberCtx=n,r=currentNumberColor,o=currentNumberBrushSize,a=numberUndoStack,s=numberRedoStack):"letter"===e?(n=(t=document.getElementById("letterDrawingCanvas")).getContext("2d"),letterCanvas=t,letterCtx=n,r=currentLetterColor,o=currentLetterBrushSize,a=letterUndoStack,s=letterRedoStack):"free"===e&&(n=(t=document.getElementById("freeDrawingCanvas")).getContext("2d"),freeCanvas=t,freeCtx=n,r=currentFreeColor,o=currentFreeBrushSize,a=freeUndoStack,s=freeRedoStack),resizeCanvas(t),setupDrawingEvents(t,n,e),n.lineWidth=o,n.strokeStyle=r,clearCanvas(e,!1),a.length=0,s.length=0,saveCanvasState(e),document.querySelectorAll(`.color-btn[data-canvas="${t.id}"]`).forEach(n=>{n.onclick=()=>{document.querySelectorAll(`.color-btn[data-canvas="${t.id}"]`).forEach(e=>e.classList.remove("active")),n.classList.add("active"),"number"===e?(currentNumberColor=n.dataset.color,currentNumberTool="pen",numberCtx.strokeStyle=currentNumberColor):"letter"===e?(currentLetterColor=n.dataset.color,currentLetterTool="pen",letterCtx.strokeStyle=currentLetterColor):"free"===e&&(currentFreeColor=n.dataset.color,currentFreeTool="pen",freeCtx.strokeStyle=currentFreeColor),document.querySelector(`.tool-btn[data-canvas="${t.id}"][data-tool="pen"]`).classList.add("active"),document.querySelector(`.tool-btn[data-canvas="${t.id}"][data-tool="eraser"]`).classList.remove("active")}}),document.querySelectorAll(`.tool-btn[data-canvas="${t.id}"][data-tool]`).forEach(n=>{n.onclick=()=>{document.querySelectorAll(`.tool-btn[data-canvas="${t.id}"][data-tool]`).forEach(e=>e.classList.remove("active")),n.classList.add("active");let r=n.dataset.tool;"number"===e?(currentNumberTool=r,numberCtx.strokeStyle="eraser"===r?"white":currentNumberColor):"letter"===e?(currentLetterTool=r,letterCtx.strokeStyle="eraser"===r?"white":currentLetterColor):"free"===e&&(currentFreeTool=r,freeCtx.strokeStyle="eraser"===r?"white":currentFreeColor)}}),document.querySelectorAll(`.tool-btn[data-canvas="${t.id}"][data-size]`).forEach(n=>{n.onclick=()=>{document.querySelectorAll(`.tool-btn[data-canvas="${t.id}"][data-size]`).forEach(e=>e.classList.remove("active")),n.classList.add("active");let r=parseInt(n.dataset.size);"number"===e?(currentNumberBrushSize=r,numberCtx.lineWidth=currentNumberBrushSize):"letter"===e?(currentLetterBrushSize=r,letterCtx.lineWidth=currentLetterBrushSize):"free"===e&&(currentFreeBrushSize=r,freeCtx.lineWidth=currentFreeBrushSize)}}),document.querySelector(`.tool-btn[data-canvas="${t.id}"][data-tool="pen"]`).classList.add("active"),document.querySelector(`.tool-btn[data-canvas="${t.id}"][data-size="5"]`).classList.add("active")}function setupDrawingEvents(e,t,n){let r=!1,o=0,a=0;function s(n){if(!r)return;n.preventDefault();let{x:s,y:u}=getCanvasCoordinates(n,e);t.lineTo(s,u),t.stroke(),[o,a]=[s,u]}function u(n){n.preventDefault(),r=!0;let{x:s,y:u}=getCanvasCoordinates(n,e);[o,a]=[s,u],t.beginPath(),t.moveTo(s,u)}function i(){r&&saveCanvasState(n),r=!1,t.closePath()}e.removeEventListener("mousedown",u),e.removeEventListener("mousemove",s),e.removeEventListener("mouseup",i),e.removeEventListener("mouseout",i),e.removeEventListener("touchstart",u),e.removeEventListener("touchmove",s),e.removeEventListener("touchend",i),e.addEventListener("mousedown",u),e.addEventListener("mousemove",s),e.addEventListener("mouseup",i),e.addEventListener("mouseout",i),e.addEventListener("touchstart",u,{passive:!1}),e.addEventListener("touchmove",s,{passive:!1}),e.addEventListener("touchend",i)}function resizeCanvas(e){let t,n,r,o,a=e.closest(".drawing-container");if(a&&(e.width=Math.min(a.offsetWidth,500),e.height=400),"drawingCanvas"===e.id&&numberCtx)t=numberCtx,n=currentNumberColor,r=currentNumberBrushSize,o=currentNumberTool;else if("letterDrawingCanvas"===e.id&&letterCtx)t=letterCtx,n=currentLetterColor,r=currentLetterBrushSize,o=currentLetterTool;else{if("freeDrawingCanvas"!==e.id||!freeCtx)return;t=freeCtx,n=currentFreeColor,r=currentFreeBrushSize,o=currentFreeTool}t&&(t.lineCap="round",t.lineJoin="round",t.lineWidth=r,t.strokeStyle="eraser"===o?"white":n)}function getCanvasCoordinates(e,t){let n,r,o=t.getBoundingClientRect();return e.touches&&e.touches.length>0?(n=e.touches[0].clientX-o.left,r=e.touches[0].clientY-o.top):(n=e.clientX-o.left,r=e.clientY-o.top),{x:n,y:r}}function clearCanvas(e,t=!0){let n,r;if("number"===e?(n=numberCanvas,r=numberCtx):"letter"===e?(n=letterCanvas,r=letterCtx):"free"===e&&(n=freeCanvas,r=freeCtx),r){let o,a,s;r.clearRect(0,0,n.width,n.height),"number"===e?(o=currentNumberColor,a=currentNumberBrushSize,s=currentNumberTool):"letter"===e?(o=currentLetterColor,a=currentLetterBrushSize,s=currentLetterTool):"free"===e&&(o=currentFreeColor,a=currentFreeBrushSize,s=currentFreeTool),r.strokeStyle="eraser"===s?"white":o,r.lineWidth=a,t&&saveCanvasState(e)}}function showDrawingNumber(){document.getElementById("draw-number").textContent=numbers[currentDrawingNumberIndex].number,clearCanvas("number"),numberUndoStack=[],numberRedoStack=[],saveCanvasState("number")}function showDrawingLetter(){document.getElementById("draw-letter").textContent=drawingLetters[currentDrawingLetterIndex],clearCanvas("letter"),letterUndoStack=[],letterRedoStack=[],saveCanvasState("letter")}function nextDrawingItem(e){"number"===e?(++currentDrawingNumberIndex>=numbers.length&&(currentDrawingNumberIndex=0),showDrawingNumber()):"letter"===e&&(++currentDrawingLetterIndex>=drawingLetters.length&&(currentDrawingLetterIndex=0),showDrawingLetter())}speechSynth.onvoiceschanged=()=>{(ukrainianVoice=speechSynth.getVoices().find(e=>"uk-UA"===e.lang||e.name.includes("Ukrainian")))||console.warn("Український голос не знайдено. Буде використано голос за замовчуванням.")},window.addEventListener("resize",()=>{numberCanvas&&resizeCanvas(numberCanvas),letterCanvas&&resizeCanvas(letterCanvas),freeCanvas&&resizeCanvas(freeCanvas)});</script>
+
+
