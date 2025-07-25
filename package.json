@@ -2,16 +2,14 @@
   "name": "game-header",
   "version": "1.0.0",
   "description": "Інтерактивна гра для навчання принципам рівності",
-  "scripts": {
-    "start": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build index.html",
-    "deploy": "npm run build && gh-pages -d dist",
-    "homepage": "hhttps://github.com/Anatoli37/game-header"
-  },
+  "homepage": "https://github.com/Anatoli37/game-header",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tolyamba/game-header"
+    "url": "https://github.com/Anatoli37/game-header"
+  },
+  "scripts": {
+    "start": "lite-server",
+    "build": "parcel build index.html"
   },
   "keywords": [
     "гра",
